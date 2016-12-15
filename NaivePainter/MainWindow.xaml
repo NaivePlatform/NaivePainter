@@ -4,9 +4,75 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NaivePainter"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        WindowState="Maximized" WindowStyle="SingleBorderWindow"
+        Title="NaivePainter" Height="800" Width="1280">
+    <Window.Resources>
+        <Style TargetType="{x:Type GroupBox}" >
+            <Setter Property="FontSize" Value="20"></Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="9*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="颜色">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Horizontal" 
+                            Margin="10,0" Name="stackColors" 
+                            ButtonBase.Click="ChooseColor"/>
+                </ScrollViewer>
+            </GroupBox>
+            <GroupBox Header="画笔" Grid.Column="1">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center"
+                            ButtonBase.Click="ChooseSize" Name="stackSizes" />
+                </ScrollViewer>
+            </GroupBox>
+            <GroupBox Header="操作" Grid.Column="2">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Height" Value="40"></Setter>
+                            <Setter Property="Width" Value="80"></Setter>
+                            <Setter Property="Margin" Value="10,0"></Setter>
+                            <Setter Property="Background" Value="White"></Setter>
+                        </Style>
+                    </StackPanel.Resources>
+                    <Button Content="撤销" Click="Undo"></Button>
+                    <Button Content="清除" Click="Clear"></Button>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="配置" Grid.Column="3">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Height" Value="40"></Setter>
+                            <Setter Property="Width" Value="80"></Setter>
+                            <Setter Property="Margin" Value="10,0"></Setter>
+                            <Setter Property="Background" Value="White"></Setter>
+                        </Style>
+                    </StackPanel.Resources>
+                    <Button Content="颜色" Click="SetColor"></Button>
+                    <Button Content="画笔" Click="SetSize"></Button>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+        <Canvas Grid.Row="1" Name="canvasPaint"
+                Background="White" MouseMove="PaintCanvas_MouseMove"
+                MouseLeftButtonDown="PaintCanvas_MouseLeftButtonDown"
+                MouseLeftButtonUp="PaintCanvas_MouseLeftButtonUp"
+                MouseRightButtonDown="PaintCanvas_MouseRightButtonDown"
+                MouseRightButtonUp="PaintCanvas_MouseRightButtonUp"/>
     </Grid>
 </Window>
