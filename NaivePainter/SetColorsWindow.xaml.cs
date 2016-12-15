@@ -117,7 +117,16 @@ namespace NaivePainter
         {
             return !string.IsNullOrWhiteSpace(txtBlue.Text)
                 || !string.IsNullOrWhiteSpace(txtRed.Text)
-                || !string.IsNullOrWhiteSpace(txtGreen.Text);
+                || !string.IsNullOrWhiteSpace(txtGreen.Text)
+                || ValidatorValue(txtBlue.Text)
+                || ValidatorValue(txtRed.Text)
+                || ValidatorValue(txtGreen.Text);
+        }
+
+        private bool ValidatorValue(string strValue)
+        {
+            int value = int.Parse(strValue);
+            return value < 256 && value > 0;
         }
 
         private void SelectionChanged(object sender, SelectionChangedEventArgs e)
