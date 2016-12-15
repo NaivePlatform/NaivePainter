@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace NaivePainter
@@ -23,7 +15,6 @@ namespace NaivePainter
     {
         private List<Brush> Colors = new List<Brush>();
         private List<int> Sizes = new List<int>();
-
         private Brush CurrentColor { get; set; }
         private int CurrentSize { get; set; }
         private bool ShouldPaint { get; set; }
@@ -147,7 +138,7 @@ namespace NaivePainter
 
         private void DrawLine(Brush color, Point point1, Point point2)
         {
-            Line line = new Line()
+            canvasPaint.Children.Add(new Line()
             {
                 Stroke = color,
                 X1 = point1.X,
@@ -155,9 +146,7 @@ namespace NaivePainter
                 X2 = point2.X,
                 Y2 = point2.Y,
                 StrokeThickness = CurrentSize
-            };
-
-            canvasPaint.Children.Add(line);
+            });
         }
 
         private void PaintCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -214,10 +203,17 @@ namespace NaivePainter
         private void Undo(object sender, RoutedEventArgs e)
         {
             int count = canvasPaint.Children.Count;
-            if (count > 0 && CurrentLineCount <= TotalLineCount)
+            if (count > 0)
             {
-                canvasPaint.Children.RemoveRange(TotalLineCount - CurrentLineCount, CurrentLineCount);
-                TotalLineCount -= CurrentLineCount;
+                if (CurrentLineCount <= TotalLineCount)
+                {
+                    canvasPaint.Children.RemoveRange(TotalLineCount - CurrentLineCount, CurrentLineCount);
+                    TotalLineCount -= CurrentLineCount;
+                }
+                else
+                {
+                    canvasPaint.Children.Clear();
+                }
             }
         }
 

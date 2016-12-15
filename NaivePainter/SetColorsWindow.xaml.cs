@@ -19,9 +19,7 @@ namespace NaivePainter
         public SetColorsWindow()
         {
             InitializeComponent();
-
             RefreshData();
-            lblColor.Background = Brushes.Black;
         }
 
         private void RefreshData()
@@ -48,25 +46,24 @@ namespace NaivePainter
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            SolidColorBrush backgroundColor = new SolidColorBrush();
-            backgroundColor.Color = Color.FromRgb(
+            SolidColorBrush backgroundColor = new SolidColorBrush()
+            {
+                Color = Color.FromRgb(
                 (byte)sliderRed.Value,
                 (byte)sliderGreen.Value,
-                (byte)sliderBlue.Value);
+                (byte)sliderBlue.Value)
+            };
             lblColor.Background = backgroundColor;
         }
 
         private void AddColor(object sender, RoutedEventArgs e)
         {
             if (Validator())
-            {
-                int count = SqlHelper.RunSql("INSERT INTO tb_Color(Red, Green, Blue, Remark) VALUES(@Red, @Green, @Blue, @Remark)",
+                SqlHelper.RunSql("INSERT INTO tb_Color(Red, Green, Blue, Remark) VALUES(@Red, @Green, @Blue, @Remark)",
                     new SqlParameter("@Red", int.Parse(txtRed.Text)),
                     new SqlParameter("@Green", int.Parse(txtGreen.Text)),
                     new SqlParameter("@Blue", int.Parse(txtBlue.Text)),
                     new SqlParameter("@Remark", txtRemark.Text));
-                MessageBox.Show($"成功插入{count}条数据");
-            }
             RefreshData();
         }
 
@@ -74,18 +71,14 @@ namespace NaivePainter
         {
             var seleted = (RGBColor)dgColors.SelectedItem;
             if (null != seleted)
-            {
-                int count = SqlHelper.RunSql("UPDATE tb_Color SET Red=@Red, Green=@Green, Blue=@Blue, Remark=@Remark WHERE Id=@Id",
+                SqlHelper.RunSql("UPDATE tb_Color SET Red=@Red, Green=@Green, Blue=@Blue, Remark=@Remark WHERE Id=@Id",
                     new SqlParameter("@Id", SelectedId),
                     new SqlParameter("@Red", int.Parse(txtRed.Text)),
                     new SqlParameter("@Green", int.Parse(txtGreen.Text)),
                     new SqlParameter("@Blue", int.Parse(txtBlue.Text)),
                     new SqlParameter("@Remark", txtRemark.Text));
-            }
             else
-            {
                 MessageBox.Show("请选中要修改的数据");
-            }
             RefreshData();
         }
 
@@ -102,14 +95,10 @@ namespace NaivePainter
         {
             var seleted = (RGBColor)dgColors.SelectedItem;
             if (null != seleted)
-            {
-                int count = SqlHelper.RunSql("DELETE FROM tb_Color WHERE Id=@Id",
+                SqlHelper.RunSql("DELETE FROM tb_Color WHERE Id=@Id",
                     new SqlParameter("@Id", SelectedId));
-            }
             else
-            {
                 MessageBox.Show("请选中要删除的数据");
-            }
             RefreshData();
         }
 

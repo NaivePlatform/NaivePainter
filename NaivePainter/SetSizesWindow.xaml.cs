@@ -3,7 +3,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace NaivePainter
 {
@@ -19,7 +18,6 @@ namespace NaivePainter
         public SetSizesWindow()
         {
             InitializeComponent();
-
             RefreshData();
         }
 
@@ -46,12 +44,9 @@ namespace NaivePainter
         private void AddSize(object sender, RoutedEventArgs e)
         {
             if (Validator())
-            {
-                int count = SqlHelper.RunSql("INSERT INTO tb_Size(Thickness, Remark) VALUES(@Thickness, @Remark)",
+                SqlHelper.RunSql("INSERT INTO tb_Size(Thickness, Remark) VALUES(@Thickness, @Remark)",
                     new SqlParameter("@Thickness", txtThickness.Text),
                     new SqlParameter("@Remark", txtRemark.Text));
-                MessageBox.Show($"成功插入{count}条数据");
-            }
             RefreshData();
         }
 
@@ -59,16 +54,12 @@ namespace NaivePainter
         {
             var seleted = (PenSize)dgSizes.SelectedItem;
             if (null != seleted)
-            {
-                int count = SqlHelper.RunSql("UPDATE tb_Size SET Thickness=@Thickness WHERE Id=@Id",
+                SqlHelper.RunSql("UPDATE tb_Size SET Thickness=@Thickness WHERE Id=@Id",
                     new SqlParameter("@Thickness", txtThickness.Text),
                     new SqlParameter("@Remark", txtRemark.Text),
                     new SqlParameter("@Id", SelectedId));
-            }
             else
-            {
                 MessageBox.Show("请选中要修改的数据");
-            }
             RefreshData();
         }
 
@@ -83,14 +74,10 @@ namespace NaivePainter
         {
             var seleted = (PenSize)dgSizes.SelectedItem;
             if (null != seleted)
-            {
-                int count = SqlHelper.RunSql("DELETE FROM tb_Size WHERE Id=@Id",
+                SqlHelper.RunSql("DELETE FROM tb_Size WHERE Id=@Id",
                     new SqlParameter("@Id", SelectedId));
-            }
             else
-            {
                 MessageBox.Show("请选中要删除的数据");
-            }
             RefreshData();
         }
 

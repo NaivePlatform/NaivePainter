@@ -41,7 +41,7 @@
                 <RowDefinition Height="3*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Label Name="lblColor" Margin="10" BorderBrush="Black" BorderThickness="2"></Label>
+            <Label Name="lblColor" Margin="10" BorderBrush="Black" BorderThickness="2" Background="Black"></Label>
 
             <Grid Grid.Row="1" Margin="10">
                 <Grid.RowDefinitions>
